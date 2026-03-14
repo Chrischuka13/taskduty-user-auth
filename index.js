@@ -9,11 +9,14 @@ import profileRoute from "./middleware/userProfile.js"
 const app = express()
 const PORT = process.env.PORT || 2500
 
+const allowedOrigins = [
+  "http://localhost:5174",
+  "https://taskduty-list.vercel.app"
+];
+
 app.use(cors({
-  origin: 'http://localhost:5173' || "https://taskduty-list.vercel.app",
-  credentials: true,
-  methods: ['GET','POST','PUT','DELETE','OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  origin: allowedOrigins,
+  credentials: true
 }));
 
 app.use(express.json());
