@@ -10,7 +10,7 @@ const app = express()
 const PORT = process.env.PORT || 2500
 
 const allowedOrigins = [
-  "http://localhost:5174",
+  "http://localhost:5173",
   "https://taskduty-list.vercel.app"
 ];
 
