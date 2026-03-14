@@ -1,0 +1,27 @@
+import express from "express"
+import User from "../models/taskUser.js"
+import protect from "../middleware/middleware.js"
+
+const router = express.Router();
+
+router.get("/profile", protect, async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id).select("-password")
+
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found"
+            })
+        }
+
+        res.status(200).json({
+            user
+        })
+    } catch (error) {
+        res.status(500).json({
+            message: "Server error"
+        })
+    }
+})
+
+export default router;
