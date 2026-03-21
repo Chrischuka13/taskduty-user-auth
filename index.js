@@ -3,6 +3,7 @@ import cors from "cors"
 import mongoose  from "mongoose"
 import express from "express"
 import cookieParser from "cookie-parser"
+import tasksRoute from "./routes/todo.js"
 import authRoutes from "./routes/auth.js"
 import profileRoute from "./middleware/userProfile.js"
 
@@ -22,6 +23,7 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieParser());
 
+app.use("/api/task", tasksRoute)
 app.use("/api/auth", authRoutes);
 app.use("/api/auth", profileRoute)
 
