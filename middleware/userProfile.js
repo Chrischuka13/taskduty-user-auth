@@ -4,7 +4,7 @@ import protect from "../middleware/middleware.js"
 
 const router = express.Router();
 
-router.get("/profile", protect, async (req, res) => {
+router.get("/auth/profile", protect, async (req, res) => {
     try {
         const user = await User.findById(req.user.id).select("-password")
 
