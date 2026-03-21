@@ -6,7 +6,7 @@ import protect from "../middleware/middleware.js"
 const router = express.Router()
 
 //create tasks
-router.post("/profile/new-tasks", protect, async (req, res) => {
+router.post("/task/profile/new-tasks", protect, async (req, res) => {
   try {
     const user = req.user
     console.log("USER:", req.user);
@@ -41,7 +41,7 @@ router.post("/profile/new-tasks", protect, async (req, res) => {
 });
 
 //get all tasks
-router.get("/profile/all-tasks", protect, async (req, res) => {
+router.get("/task/profile/all-tasks", protect, async (req, res) => {
     try {
         const tasks = await Todos.find({user: req.user._id}).sort({createdAt: -1})
         res.json({tasks})
@@ -52,7 +52,7 @@ router.get("/profile/all-tasks", protect, async (req, res) => {
 });
 
 //get one task
-router.get("/profile/all-tasks/:id", protect, async (req, res) => {
+router.get("/task/profile/all-tasks/:id", protect, async (req, res) => {
     try {
         const task = await Todos.findOne({_id: req.params.id, user: req.user._id})
 
@@ -66,7 +66,7 @@ router.get("/profile/all-tasks/:id", protect, async (req, res) => {
     }
 });
 
-router.put("/profile/all-tasks/:id", protect, async (req, res) => {
+router.put("/task/profile/all-tasks/:id", protect, async (req, res) => {
     try {
         const {title, description, tags, scheduledDate} = req.body
         
@@ -92,7 +92,7 @@ router.put("/profile/all-tasks/:id", protect, async (req, res) => {
     }
 })
 
-router.delete("/profile/all-tasks/:id", protect, async (req, res) => {
+router.delete("/task/profile/all-tasks/:id", protect, async (req, res) => {
     try {
         const task = await Todos.findOneAndDelete({_id: req.params.id, user: req.user._id})
         if (!task) {
@@ -107,7 +107,7 @@ router.delete("/profile/all-tasks/:id", protect, async (req, res) => {
     }
 })
 
-router.get("/profile/all-tasks/search", protect, async (req, res) => {
+router.get("/task/profile/all-tasks/search", protect, async (req, res) => {
   try {
     const { query, tags } = req.query;
 

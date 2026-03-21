@@ -5,7 +5,7 @@ import User from "../models/taskUser.js"
 
 const router = express.Router()
 
-router.post('/signup', async (req, res) => {
+router.post('/auth/signup', async (req, res) => {
     try {
         const {username, email, password} = req.body
 
@@ -42,7 +42,7 @@ router.post('/signup', async (req, res) => {
     }
 });
 
-router.post("/login", async(req, res) =>{
+router.post("/auth/login", async(req, res) =>{
     try {
         const {email, password} = req.body
         
