@@ -69,6 +69,13 @@ router.get("/task/profile/all-tasks/:id", protect, async (req, res) => {
 router.put("/task/profile/all-tasks/:id", protect, async (req, res) => {
     try {
         const {title, description, tags, scheduledDate} = req.body
+
+        if (!title || typeof title !== "string") {
+          return res.status(400).json({message: "Valid title is required"})
+        }
+        if (scheduledDate && NaN(Date.parse(scheduledDate))) {
+          return res.status(400).json({message: "Invalid date format"})
+        }
         
         const task = await Todos.findOne({_id: req.params.id, user: req.user._id})
         if (!task) {
@@ -117,10 +124,7 @@ router.get("/task/profile/all-tasks/search", protect, async (req, res) => {
 
     // Text search (title + description)
     if (query) {
-      filter.$or = [
-        { title: { $regex: query, $options: "i" } },
-        { description: { $regex: query, $options: "i" } },
-      ];
+      filter.$text = { $search: query };
     }
 
     // Filter by tag
@@ -128,7 +132,9 @@ router.get("/task/profile/all-tasks/search", protect, async (req, res) => {
       filter.tags = tags;
     }
 
-    const tasks = await Todos.find(filter).sort({ createdAt: -1 });
+    const tasks = await Todos.find(filter, {
+      score: { $meta: "textScore" },
+    }).sort({ score: { $meta: "textScore" } });
 
     res.json(tasks);
 

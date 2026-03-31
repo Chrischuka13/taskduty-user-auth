@@ -28,5 +28,5 @@ const todoSchema = new Schema({
     }
 })
 
-todoSchema.index({user: 1, createdAt: -1})
+todoSchema.index({user: 1, createdAt: -1, title: "text", description: "text"})
 export default mongoose.model("To-Do", todoSchema);
